@@ -1,6 +1,6 @@
 # Notely
 
-A personal study app: photograph your notes, pick a game mode and a theme, and Claude turns them into flash cards, a monster-battle game, a matching game, a speed round, and a quiz. Everything runs in the browser; there is no server.
+A personal study app: photograph your notes, pick a game mode and a theme, and Claude turns them into flash cards, a monster-battle game, and a quiz. Everything runs in the browser; there is no server.
 
 Layout: a top bar with log in / sign up / log out, a sidebar with Home, Your creations, Create and a settings gear, and a Home screen showing your avatar, username, level/XP, stats and recent notes. Accounts come in two flavours. With Firebase configured (see below) they are **cloud accounts**: username + password (email optional), one account on every device, study sets synced. Without it they are **device-only accounts**: username, password (salted PBKDF2 hash), security question, and an export/import file to move an account to another device.
 
@@ -12,7 +12,7 @@ Layout: a top bar with log in / sign up / log out, a sidebar with Home, Your cre
 - `js/api.js` – the Claude API call and image compression
 - `js/cloud.js`, `js/firebase-config.js` – Firebase cloud accounts and set sync
 - `js/audiogen.js`, `js/kokoro-worker.js` – lecture audio generation (in-browser Kokoro or the local helper)
-- `js/games.js` – Flash Cards, Notemon, Match, Blitz, and Quiz
+- `js/games.js` – Flash Cards, Notemon, and Quiz
 - `js/lecture.js` – Lecture mode: Claude writes a spoken lecture; pre-generated Kokoro audio plays while the transcript highlights each word
 - `audio/` – pre-generated lecture clips (`<sha256 of sentence>.opus`, 32 kbps) plus `manifest.json` and the sample lecture text
 - `tools/` – the local audio pipeline (see below)
