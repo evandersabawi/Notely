@@ -501,6 +501,7 @@ I18N.register('es', {
   "combos": "combos",
   "best hit": "mejor golpe",
   "Miss": "Fallo",
+  "{name} attacks, but you dodge!": "¡{name} ataca, pero lo esquivas!",
   "Type the answer": "Escribe la respuesta",
   "Type your answer": "Escribe tu respuesta",
   "Your answer": "Tu respuesta",

@@ -501,6 +501,7 @@ I18N.register('it', {
   "combos": "combo",
   "best hit": "colpo migliore",
   "Miss": "Mancato",
+  "{name} attacks, but you dodge!": "{name} attacca, ma tu schivi!",
   "Type the answer": "Scrivi la risposta",
   "Type your answer": "Scrivi la tua risposta",
   "Your answer": "La tua risposta",

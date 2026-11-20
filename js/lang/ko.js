@@ -501,6 +501,7 @@ I18N.register('ko', {
   "combos": "콤보",
   "best hit": "최고 피해",
   "Miss": "빗나감",
+  "{name} attacks, but you dodge!": "{name}의 공격! 하지만 피했어요!",
   "Type the answer": "답을 입력하세요",
   "Type your answer": "답을 입력하세요",
   "Your answer": "내 답",

@@ -501,6 +501,7 @@ I18N.register('zh', {
   "combos": "连招",
   "best hit": "最高伤害",
   "Miss": "落空",
+  "{name} attacks, but you dodge!": "{name} 发动攻击，但你闪开了！",
   "Type the answer": "输入答案",
   "Type your answer": "输入你的答案",
   "Your answer": "你的答案",

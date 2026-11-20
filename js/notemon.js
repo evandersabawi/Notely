@@ -208,7 +208,7 @@
       let dmg = noDamage ? 0 : Math.round(raw * guardMult);
       const blocked = raw - dmg;
       you.hp = Math.max(0, you.hp - dmg);
-      add(Object.assign({ who: 'mon', fx: 'attack', log, n: dmg, dmgYou: dmg }, extra));
+      add(Object.assign({ who: 'mon', fx: 'attack', log: noDamage ? '{name} attacks, but you dodge!' : log, n: dmg, dmgYou: dmg }, extra));
       if (blocked > 0) add({ who: 'you', fx: 'guard', log: 'You blocked {n} damage.', n: blocked });
     };
     if (m.stun) {

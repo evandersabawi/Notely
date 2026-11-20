@@ -501,6 +501,7 @@ I18N.register('ja', {
   "combos": "コンボ",
   "best hit": "最大ダメージ",
   "Miss": "ミス",
+  "{name} attacks, but you dodge!": "{name} の攻撃！しかし、ひらりとかわした！",
   "Type the answer": "答えを入力",
   "Type your answer": "答えを入力してください",
   "Your answer": "あなたの答え",
