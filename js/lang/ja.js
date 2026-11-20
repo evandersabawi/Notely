@@ -405,4 +405,12 @@ I18N.register('ja', {
   "Special instructions": "特別な指示",
   "e.g. Only chapters 1–3, not 4–6.": "例：第1〜3章だけ。第4〜6章は除く。",
   "Tell Claude what to focus on or skip when it makes your cards and quiz.": "カードとクイズを作るときに、Claude が重点を置く内容や省く内容を伝えましょう。",
+  "Type the answer": "答えを入力",
+  "Type your answer": "答えを入力してください",
+  "Your answer": "あなたの答え",
+  "Check": "答え合わせ",
+  "I don't know": "わからない",
+  "I was right": "正解だった",
+  "Counted as correct.": "正解として数えました。",
+  "No answer": "未回答",
 });

@@ -405,4 +405,12 @@ I18N.register('ko', {
   "Special instructions": "특별 지시사항",
   "e.g. Only chapters 1–3, not 4–6.": "예: 1–3장만, 4–6장은 제외.",
   "Tell Claude what to focus on or skip when it makes your cards and quiz.": "카드와 퀴즈를 만들 때 Claude가 집중하거나 건너뛸 내용을 알려 주세요.",
+  "Type the answer": "답을 입력하세요",
+  "Type your answer": "답을 입력하세요",
+  "Your answer": "내 답",
+  "Check": "확인",
+  "I don't know": "모르겠어요",
+  "I was right": "맞게 썼어요",
+  "Counted as correct.": "정답으로 처리했어요.",
+  "No answer": "답 없음",
 });

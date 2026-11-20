@@ -405,4 +405,12 @@ I18N.register('zh', {
   "Special instructions": "特别说明",
   "e.g. Only chapters 1–3, not 4–6.": "例如：只要第 1–3 章，不要第 4–6 章。",
   "Tell Claude what to focus on or skip when it makes your cards and quiz.": "告诉 Claude 在制作卡片和测验时应侧重什么或跳过什么。",
+  "Type the answer": "输入答案",
+  "Type your answer": "输入你的答案",
+  "Your answer": "你的答案",
+  "Check": "检查",
+  "I don't know": "我不知道",
+  "I was right": "我答对了",
+  "Counted as correct.": "已算作正确。",
+  "No answer": "未作答",
 });
