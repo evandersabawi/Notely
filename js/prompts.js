@@ -5,7 +5,7 @@
   const SCHEMA = {
     type: 'object',
     additionalProperties: false,
-    required: ['title', 'subject', 'summary', 'cards', 'questions', 'monsters'],
+    required: ['title', 'subject', 'summary', 'cards', 'questions', 'written', 'monsters'],
     properties: {
       title: { type: 'string', description: 'Short title for this set of notes (2-6 words).' },
       subject: { type: 'string', description: 'Subject area, e.g. "Biology - Cell Division".' },
@@ -38,6 +38,21 @@
           },
         },
       },
+      written: {
+        type: 'array',
+        description: 'Short written-answer questions: the student types the answer instead of picking from choices.',
+        items: {
+          type: 'object',
+          additionalProperties: false,
+          required: ['question', 'answer', 'accepted', 'explanation'],
+          properties: {
+            question: { type: 'string', description: 'A question with one short, unambiguous answer.' },
+            answer: { type: 'string', description: 'The model answer, 1-4 words (a term, name, number, or short phrase).' },
+            accepted: { type: 'array', items: { type: 'string' }, description: 'Other answers that should also count as correct: synonyms, abbreviations, alternate spellings, with or without units. May be empty.' },
+            explanation: { type: 'string', description: 'One sentence explaining the answer.' },
+          },
+        },
+      },
       monsters: {
         type: 'array',
         description: 'Exactly 5 playful monster names themed on the subject, for the battle game mode. Order them from weakest to strongest.',
@@ -60,6 +75,7 @@ Read every photo carefully, including margins, diagrams, tables, and small annot
 Guidelines:
 - cards: cover ALL important content. Typically 15-40 cards depending on how dense the notes are. Fronts are short prompts; backs are concise answers (under 15 words when possible).
 - questions: 12-25 multiple-choice questions. Each has exactly 4 choices, exactly one correct, and the wrong choices must be plausible (common misconceptions, similar terms). Vary which index is correct. Include some questions that require applying or connecting ideas, not just recall.
+- written: 5-10 short written-answer questions, where the student types the answer from memory. Use them for key terms, names, numbers, and short facts whose answer is 1-4 words and that only one answer fits (not "Name one example of..." or anything with several valid answers). Put the main answer in "answer", and list in "accepted" every other wording that should count as correct (synonyms, abbreviations, singular/plural, with and without units). Do not repeat a multiple-choice question as a written one.
 - Every card and question must stand completely on its own. The student will see ONLY the text you write, never the photos. Do not write anything that needs a diagram, figure, graph, table, map, picture, worked example, or passage from the notes in order to be answered. Never use phrases such as "in the diagram", "the figure above", "as shown", "in the example", "according to the notes", "on page 2", "label A", or "the following table". If a fact comes from a diagram or example, either rewrite it so all the needed information is stated in words inside the question itself (for example give the numbers, names, or description directly), or leave it out. If it cannot be asked fairly in text alone, skip it.
 - Ask only about the subject matter the notes teach. Notes often carry details that are not part of what is being studied: the student's name, the teacher's name, the class or course name, the lesson, unit, or chapter title, page numbers, dates the notes were written, school name, headers, footers, and doodles. Never write cards or questions about these, such as "Whose notes are these?", "What is the title of this lesson?", "What date were these notes taken?", or "Which class are these notes for?". A date, name, or title is fair game only when it is part of the content itself (for example the year a battle happened or the scientist who proposed a theory).
 - Before finishing, reread each card and question as someone who has never seen the notes. If it cannot be answered from its own text plus subject knowledge, fix it or remove it.
@@ -126,6 +142,7 @@ Aim for 700 to 1100 words in 4 to 7 sections. Open with a one-or-two-sentence ho
       ...(c.cards || []).map(k => `- ${k.front} -> ${k.back}`), '',
       'Quiz questions the student will face (use them to decide what to emphasise):',
       ...(c.questions || []).slice(0, 15).map(q => `- ${q.question} (answer: ${q.choices[q.answer]})`),
+      ...(c.written || []).slice(0, 8).map(q => `- ${q.question} (answer: ${q.answer})`),
       '', 'Write the lecture now.',
     ];
     return [{ type: 'text', text: lines.join('\n') }];

@@ -802,7 +802,7 @@
           </div></details>
         </div>
         <p class="tile-sub">${esc(c.subject || '')}</p>
-        <p class="tile-meta">${c.cards.length} cards · ${c.questions.length} questions${best.length ? ' · ' + best.join(' · ') : ''}</p>
+        <p class="tile-meta">${c.cards.length} cards · ${c.questions.length + (c.written || []).length} questions${best.length ? ' · ' + best.join(' · ') : ''}</p>
         ${lectureNote}
         <div class="row tile-actions">
           <a class="btn primary" href="#study/${c.id}">${I(m.icon)} Study</a>
@@ -909,7 +909,7 @@
       await putC(c);
       u.stats.xp += 25; saveUser(u);
       st.files = []; st.name = ''; st.instructions = ''; st.busy = false; st.status = '';
-      toast(`Created "${c.name}" · ${c.cards.length} cards, ${c.questions.length} questions`, 4000);
+      toast(`Created "${c.name}" · ${c.cards.length} cards, ${c.questions.length + c.written.length} questions`, 4000);
       location.hash = '#creations';
       if (s.autoLecture !== false) prepareLecture(c);
     } catch (e) {
@@ -921,6 +921,8 @@
     const cards = (r.cards || []).filter(k => k && k.front && k.back).map(k => ({ front: String(k.front).trim(), back: String(k.back).trim() }));
     const questions = (r.questions || []).filter(q => q && q.question && Array.isArray(q.choices) && q.choices.length === 4 && Number.isInteger(q.answer) && q.answer >= 0 && q.answer < 4)
       .map(q => ({ question: String(q.question).trim(), choices: q.choices.map(x => String(x).trim()), answer: q.answer, explanation: String(q.explanation || '').trim() }));
+    const written = (r.written || []).filter(q => q && q.question && q.answer)
+      .map(q => ({ question: String(q.question).trim(), answer: String(q.answer).trim(), accepted: (Array.isArray(q.accepted) ? q.accepted : []).map(x => String(x).trim()).filter(Boolean), explanation: String(q.explanation || '').trim() }));
     const monsters = (r.monsters || []).filter(m => m && m.name).slice(0, 5).map(m => ({ name: String(m.name).trim() }));
     if (cards.length < 2) throw new Error('Claude could not find enough content in these photos. Try clearer or closer photos.');
     return {
@@ -928,7 +930,7 @@
       name: meta.name || r.title || 'Untitled notes',
       subject: r.subject || '', summary: r.summary || '',
       mode: meta.mode, cover: meta.cover,
-      cards, questions, monsters, stats: {}, model: r._model,
+      cards, questions, written, monsters, stats: {}, model: r._model,
     };
   }
 
@@ -1155,6 +1157,13 @@
         { question: 'Which of these is a product, not a reactant, of photosynthesis?', choices: ['Carbon dioxide', 'Water', 'Light', 'Glucose'], answer: 3, explanation: 'Glucose and oxygen are the products; CO₂, water and light are inputs.' },
         { question: 'A stack of thylakoids is called a…', choices: ['Stroma', 'Granum', 'Lamella', 'Cristae'], answer: 1, explanation: 'Grana are stacks of thylakoid discs inside the chloroplast.' },
         { question: 'Which colours of light drive photosynthesis most effectively?', choices: ['Green and yellow', 'Red and blue', 'Orange and green', 'Ultraviolet only'], answer: 1, explanation: 'Chlorophyll absorbs red and blue wavelengths most strongly.' },
+      ],
+      written: [
+        { question: 'What green pigment in chloroplasts absorbs light energy?', answer: 'Chlorophyll', accepted: [], explanation: 'Chlorophyll absorbs mostly red and blue light.' },
+        { question: 'Which enzyme attaches CO₂ to RuBP in the Calvin cycle?', answer: 'RuBisCO', accepted: ['Rubisco', 'ribulose bisphosphate carboxylase'], explanation: 'RuBisCO catalyses carbon fixation, the first step of the Calvin cycle.' },
+        { question: 'What are the pores in a leaf that let carbon dioxide in called?', answer: 'Stomata', accepted: ['Stoma', 'Stomates'], explanation: 'Stomata, mostly on the underside of the leaf, allow gas exchange.' },
+        { question: 'What is the splitting of water by light energy called?', answer: 'Photolysis', accepted: [], explanation: 'Photolysis releases oxygen, protons and electrons from water.' },
+        { question: 'In which part of the chloroplast does the Calvin cycle take place?', answer: 'Stroma', accepted: ['The stroma'], explanation: 'The stroma is the fluid around the thylakoids.' },
       ],
       monsters: [{ name: 'Chlorophyllis' }, { name: 'Stomatron' }, { name: 'Thylakoid Kid' }, { name: 'RuBisCOlossus' }, { name: 'Photon Phantom' }],
     };

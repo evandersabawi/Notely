@@ -421,4 +421,12 @@ I18N.register('fr', {
   "Special instructions": "Instructions spéciales",
   "e.g. Only chapters 1–3, not 4–6.": "ex. Seulement les chapitres 1 à 3, pas 4 à 6.",
   "Tell Claude what to focus on or skip when it makes your cards and quiz.": "Indique à Claude sur quoi se concentrer ou quoi ignorer pour créer tes cartes et ton quiz.",
+  "Type the answer": "Écris la réponse",
+  "Type your answer": "Écris ta réponse",
+  "Your answer": "Ta réponse",
+  "Check": "Vérifier",
+  "I don't know": "Je ne sais pas",
+  "I was right": "J'avais raison",
+  "Counted as correct.": "Comptée comme correcte.",
+  "No answer": "Pas de réponse",
 });
