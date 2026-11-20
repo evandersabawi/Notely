@@ -114,8 +114,6 @@ Aim for 700 to 1100 words in 4 to 7 sections. Open with a one-or-two-sentence ho
     return {
       flash: 'The student chose Flash Cards, so prioritize a complete, well-ordered card set.',
       notemon: 'The student chose Notemon (a monster battle game), so make questions fun and varied, and make the monster names extra creative.',
-      match: 'The student chose Match (a memory pairing game), so keep card backs especially short (1-6 words) wherever possible.',
-      blitz: 'The student chose Blitz (a timed speed round), so questions and choices should be quick to read.',
     }[mode] || '';
   }
 

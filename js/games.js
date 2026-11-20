@@ -251,91 +251,6 @@ const Games = (() => {
     return () => {};
   }
 
-  // ---------------- Match (memory pairs) ----------------
-  function match(root, c, ctx) {
-    const pairs = c.cards.slice().sort((a, b) => (a.front.length + a.back.length) - (b.front.length + b.back.length)).slice(0, 8);
-    const tiles = shuffle(pairs.flatMap((p, i) => [{ id: i, text: p.front, side: 'front' }, { id: i, text: p.back, side: 'back' }]));
-    let open = [], matched = new Set(), moves = 0, lock = false, start = Date.now(), timer;
-    root.innerHTML = `
-      <div class="game-top"><span id="moves">0 moves</span><span id="time">0:00</span><span id="left">${pairs.length} pairs left</span></div>
-      <div class="match-grid ${tiles.length <= 12 ? 'small' : ''}">${tiles.map((t, i) =>
-        `<button class="mtile ${t.side}" data-i="${i}"><span class="tile-back">?</span><span class="tile-front">${esc(t.text)}</span></button>`).join('')}</div>`;
-    const fmt = s => Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
-    timer = setInterval(() => { const t = root.querySelector('#time'); if (t) t.textContent = fmt(Math.floor((Date.now() - start) / 1000)); }, 500);
-    const btns = [...root.querySelectorAll('.mtile')];
-    btns.forEach(b => b.onclick = async () => {
-      const i = +b.dataset.i;
-      if (lock || open.includes(i) || matched.has(i)) return;
-      b.classList.add('open'); open.push(i);
-      if (open.length < 2) return;
-      moves++; root.querySelector('#moves').textContent = moves + ' moves';
-      const [a, z] = open;
-      if (tiles[a].id === tiles[z].id && tiles[a].side !== tiles[z].side) {
-        matched.add(a); matched.add(z);
-        btns[a].classList.add('matched'); btns[z].classList.add('matched');
-        open = [];
-        root.querySelector('#left').textContent = (pairs.length - matched.size / 2) + ' pairs left';
-        if (matched.size === tiles.length) {
-          clearInterval(timer);
-          const secs = Math.floor((Date.now() - start) / 1000);
-          ctx.done({ type: 'match', moves, secs });
-          await wait(500);
-          endScreen(root, { title: 'All matched', icon: 'grid', stats: [['moves', moves], ['time', fmt(secs)], ['pairs', pairs.length]], again: ctx.restart });
-        }
-      } else {
-        lock = true;
-        await wait(750);
-        btns[a].classList.remove('open'); btns[z].classList.remove('open');
-        btns[a].classList.add('shake'); btns[z].classList.add('shake');
-        setTimeout(() => { btns[a].classList.remove('shake'); btns[z].classList.remove('shake'); }, 400);
-        open = []; lock = false;
-      }
-    });
-    return () => clearInterval(timer);
-  }
-
-  // ---------------- Blitz (timed) ----------------
-  function blitz(root, c, ctx) {
-    const DURATION = 60;
-    let pool = buildMC(c), qi = 0, score = 0, streak = 0, answered = 0, correct = 0, left = DURATION, timer, over = false;
-    const nextQ = () => { if (qi >= pool.length) { pool = buildMC(c); qi = 0; } return pool[qi++]; };
-    root.innerHTML = `
-      <div class="game-top"><span>${I('star')} <b id="score">0</b></span><span id="mult">x1</span><span>${I('timer')} <b id="left">${DURATION}</b>s</span></div>
-      <div class="progress timer"><i id="bar" style="width:100%"></i></div>
-      <div id="q"></div>`;
-    const bar = root.querySelector('#bar');
-    timer = setInterval(() => {
-      left--;
-      const l = root.querySelector('#left'); if (l) l.textContent = left;
-      bar.style.width = pct(left, DURATION) + '%';
-      if (left <= 0) finish();
-    }, 1000);
-    function mult() { return Math.min(4, 1 + Math.floor(streak / 3)); }
-    function ask() {
-      if (over) return;
-      const item = nextQ();
-      const q = root.querySelector('#q');
-      q.innerHTML = `<div class="qpanel"><p class="qtext">${esc(item.q)}</p>${choicesHTML(item)}</div>`;
-      askChoices(q, item).then(async r => {
-        if (over) return;
-        answered++;
-        if (r.correct) { correct++; streak++; score += 100 * mult(); }
-        else streak = 0;
-        root.querySelector('#score').textContent = score;
-        root.querySelector('#mult').textContent = 'x' + mult() + (streak ? ` (${streak} streak)` : '');
-        await wait(r.correct ? 350 : 900);
-        ask();
-      });
-    }
-    function finish() {
-      over = true; clearInterval(timer);
-      ctx.done({ type: 'blitz', score, answered, correct });
-      endScreen(root, { title: "Time's up", icon: 'zap', stats: [['score', score], ['answered', answered], ['accuracy', pct(correct, answered) + '%']], again: ctx.restart });
-    }
-    ask();
-    return () => { over = true; clearInterval(timer); };
-  }
-
   // ---------------- Quiz (normal) ----------------
   function quiz(root, c, ctx) {
     let items = buildMC(c).filter(i => i.choices.length === 4);
@@ -407,5 +322,5 @@ const Games = (() => {
     return () => {};
   }
 
-  return { flash, notemon, match, blitz, quiz };
+  return { flash, notemon, quiz };
 })();
