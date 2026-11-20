@@ -336,7 +336,7 @@
       set('#t-streak', `streak ${sn.streak}`);
       set('#t-caught', `${sn.caught} caught`);
     }
-    const say = (text, vars = {}) => { const l = $('#log'); if (l) l.textContent = fillName(text, Object.assign({ name: monName() }, vars)); };
+    const say = (text, vars = {}) => { const l = $('#log'); if (l) l.classList.remove('event'); if (l) l.textContent = fillName(text, Object.assign({ name: monName() }, vars)); };
     function floatNum(which, text, cls) {
       const f = $(which === 'me' ? '#float-me' : '#float-mon'); if (!f) return;
       f.textContent = text; f.className = 'float ' + (which === 'me' ? 'me ' : 'mon ') + cls;
