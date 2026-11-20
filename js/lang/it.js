@@ -501,4 +501,12 @@ I18N.register('it', {
   "combos": "combo",
   "best hit": "colpo migliore",
   "Miss": "Mancato",
+  "Type the answer": "Scrivi la risposta",
+  "Type your answer": "Scrivi la tua risposta",
+  "Your answer": "La tua risposta",
+  "Check": "Verifica",
+  "I don't know": "Non lo so",
+  "I was right": "Avevo ragione",
+  "Counted as correct.": "Considerata corretta.",
+  "No answer": "Nessuna risposta",
 });

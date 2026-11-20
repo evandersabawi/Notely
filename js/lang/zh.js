@@ -501,4 +501,12 @@ I18N.register('zh', {
   "combos": "连招",
   "best hit": "最高伤害",
   "Miss": "落空",
+  "Type the answer": "输入答案",
+  "Type your answer": "输入你的答案",
+  "Your answer": "你的答案",
+  "Check": "检查",
+  "I don't know": "我不知道",
+  "I was right": "我答对了",
+  "Counted as correct.": "已算作正确。",
+  "No answer": "未作答",
 });

@@ -14,12 +14,12 @@ const I18N = (() => {
     ['it', 'Italiano'], ['zh', '中文（简体）'], ['ja', '日本語'], ['ko', '한국어'],
   ];
   const KEY = 'notely.lang';
-  const VERSION = 6; // bump when a language file changes, so browsers fetch the new one
+  const VERSION = 7; // bump when a language file changes, so browsers fetch the new one
   const SKIP = [
     'script', 'style', 'code', 'pre', 'textarea', '[contenteditable]', '[translate="no"]', '[data-no-i18n]',
     '.lec-transcript', '.cardlist', '.tile h2', '.tile-sub', '.play-title b', '.user-chip span', '.side-user b',
     '.name-row h1', '.fc-face p', '.qtext', '.choice', '.account b', '.caught', '.battle-log .name',
-    '.tile-front', '.review-item > p', '.review-item small', '.modal-card h3[data-no-i18n]',
+    '.tile-front', '.review-item > p', '.review-item small', '.feedback .ans', '.modal-card h3[data-no-i18n]',
   ].join(',');
   const ATTRS = ['placeholder', 'title', 'aria-label'];
 

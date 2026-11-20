@@ -501,4 +501,12 @@ I18N.register('ja', {
   "combos": "コンボ",
   "best hit": "最大ダメージ",
   "Miss": "ミス",
+  "Type the answer": "答えを入力",
+  "Type your answer": "答えを入力してください",
+  "Your answer": "あなたの答え",
+  "Check": "答え合わせ",
+  "I don't know": "わからない",
+  "I was right": "正解だった",
+  "Counted as correct.": "正解として数えました。",
+  "No answer": "未回答",
 });

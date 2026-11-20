@@ -430,6 +430,12 @@ img.avatar.xl { width: 80px; height: 80px; }
 .choice.correct .letter { border-color: var(--ok); color: var(--ok); }
 .choice.wrong { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, var(--bg)); opacity: 1; animation: shake .35s; }
 .choice.wrong .letter { border-color: var(--bad); color: var(--bad); }
+.qkind { margin: 0 0 var(--s2); font-size: var(--fs-xs); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.written { display: grid; gap: var(--s3); }
+.written .row { margin-top: 0; }
+.written .input { font-size: var(--fs-md); }
+.written .input.correct { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, var(--bg)); opacity: 1; }
+.written .input.wrong { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, var(--bg)); opacity: 1; animation: shake .35s; }
 .feedback { margin-top: var(--s4); padding: var(--s3) var(--s4); border-radius: var(--r); line-height: 1.5; font-size: var(--fs-sm); border-left: 3px solid var(--line); background: var(--bg); }
 .feedback.good { border-left-color: var(--ok); }
 .feedback.bad { border-left-color: var(--bad); }

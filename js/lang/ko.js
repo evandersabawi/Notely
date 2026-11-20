@@ -501,4 +501,12 @@ I18N.register('ko', {
   "combos": "콤보",
   "best hit": "최고 피해",
   "Miss": "빗나감",
+  "Type the answer": "답을 입력하세요",
+  "Type your answer": "답을 입력하세요",
+  "Your answer": "내 답",
+  "Check": "확인",
+  "I don't know": "모르겠어요",
+  "I was right": "맞게 썼어요",
+  "Counted as correct.": "정답으로 처리했어요.",
+  "No answer": "답 없음",
 });
