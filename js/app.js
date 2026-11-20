@@ -7,8 +7,6 @@
   const MODES = {
     flash:   { name: 'Flash Cards', icon: 'cards',  desc: 'Flip through cards and mark what you know.' },
     notemon: { name: 'Notemon',     icon: 'swords', desc: 'Battle and catch monsters by answering questions.' },
-    match:   { name: 'Match',       icon: 'grid',   desc: 'Memory game: pair terms with their answers.' },
-    blitz:   { name: 'Blitz',       icon: 'zap',    desc: '60-second speed round with streak multipliers.' },
   };
   const MODELS = API.MODELS; // models for people who bring their own key (js/api.js)
 
@@ -54,7 +52,7 @@
   }
   function newUser(name, avatar) {
     return { id: uid(), name, avatar, createdAt: Date.now(), activeDays: [],
-      stats: { quizzes: 0, quizPctTotal: 0, quizBest: 0, cardsStudied: 0, flashRuns: 0, monstersCaught: 0, notemonWins: 0, matchGames: 0, matchBest: null, blitzBest: 0, blitzGames: 0, xp: 0 } };
+      stats: { quizzes: 0, quizPctTotal: 0, quizBest: 0, cardsStudied: 0, flashRuns: 0, monstersCaught: 0, notemonWins: 0, xp: 0 } };
   }
   function streak(u) {
     const set = new Set(u.activeDays || []); let n = 0; const d = new Date();
@@ -75,8 +73,6 @@
     switch (r.type) {
       case 'flash': c.stats.flashRuns = (c.stats.flashRuns || 0) + 1; s.flashRuns++; s.cardsStudied += r.cards; s.xp += r.cards * 2; break;
       case 'notemon': c.stats.notemonBest = Math.max(c.stats.notemonBest || 0, r.caught); s.monstersCaught += r.caught; if (r.won) s.notemonWins++; s.xp += r.caught * 15 + (r.won ? 50 : 0); break;
-      case 'match': c.stats.matchBest = c.stats.matchBest == null ? r.moves : Math.min(c.stats.matchBest, r.moves); s.matchGames++; s.matchBest = s.matchBest == null ? r.moves : Math.min(s.matchBest, r.moves); s.xp += 30; break;
-      case 'blitz': c.stats.blitzBest = Math.max(c.stats.blitzBest || 0, r.score); s.blitzGames++; s.blitzBest = Math.max(s.blitzBest, r.score); s.xp += Math.round(r.score / 20); break;
       case 'quiz': c.stats.quizBest = Math.max(c.stats.quizBest || 0, r.pct); s.quizzes++; s.quizPctTotal += r.pct; s.quizBest = Math.max(s.quizBest, r.pct); s.xp += r.score * 10; break;
       case 'lecture': c.stats.lectures = (c.stats.lectures || 0) + 1; s.lectures = (s.lectures || 0) + 1; s.xp += 20; break;
     }
@@ -715,8 +711,6 @@
       ['target', avg == null ? '–' : avg + '%', 'avg quiz score'],
       ['cards', s.cardsStudied, 'cards studied'],
       ['swords', s.monstersCaught, 'monsters caught'],
-      ['zap', s.blitzBest, 'blitz best'],
-      ['grid', s.matchBest == null ? '–' : s.matchBest, 'match best (moves)'],
       ['lecture', s.lectures || 0, 'lectures heard'],
       ['flame', st, 'day streak'],
     ];
@@ -782,8 +776,6 @@
     const best = [];
     if (st.quizBest != null) best.push(`Quiz best ${st.quizBest}%`);
     if (st.notemonBest) best.push(`Notemon ${st.notemonBest}/5`);
-    if (st.blitzBest) best.push(`Blitz ${st.blitzBest}`);
-    if (st.matchBest != null) best.push(`Match ${st.matchBest} moves`);
     if (st.lectures) best.push(`Lecture heard ${st.lectures}x`);
     const prepping = prep.get(c.id);
     const lectureNote = prepping ? `<span class="tile-prep"><span class="spinner"></span> ${esc(prepping.text)}</span>` : (c.lecture ? `<span class="tile-prep ok">${I('check')} Lecture ready</span>` : '');

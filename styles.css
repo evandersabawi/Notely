@@ -415,7 +415,6 @@ img.avatar.xl { width: 80px; height: 80px; }
 .game-top .ico { width: 15px; height: 15px; }
 .progress { height: 4px; background: var(--line); border-radius: var(--r-pill); overflow: hidden; margin-bottom: var(--s5); }
 .progress i { display: block; height: 100%; background: var(--accent); transition: width .3s var(--ease); }
-.progress.timer i { transition: width 1s linear; }
 
 /* questions */
 .qpanel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: var(--s5); }
