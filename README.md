@@ -12,7 +12,8 @@ Layout: a top bar with log in / sign up / log out, a sidebar with Home, Your cre
 - `js/api.js` – the Claude API call and image compression
 - `js/cloud.js`, `js/firebase-config.js` – Firebase cloud accounts and set sync
 - `js/audiogen.js`, `js/kokoro-worker.js` – lecture audio generation (in-browser Kokoro or the local helper)
-- `js/games.js` – Flash Cards, Notemon, and Quiz
+- `js/games.js` – Flash Cards and Quiz
+- `js/notemon.js` – Notemon, the monster battle: moves, combos, monster personalities and wild events. Its rules run in Node too, for balance checks (see the top of the file)
 - `js/lecture.js` – Lecture mode: Claude writes a spoken lecture; pre-generated Kokoro audio plays while the transcript highlights each word
 - `audio/` – pre-generated lecture clips (`<sha256 of sentence>.opus`, 32 kbps) plus `manifest.json` and the sample lecture text
 - `tools/` – the local audio pipeline (see below)

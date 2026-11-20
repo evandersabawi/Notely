@@ -156,100 +156,7 @@ const Games = (() => {
     return () => {};
   }
 
-  // ---------------- Notemon (battle) ----------------
-  function notemon(root, c, ctx) {
-    const monsters = (c.monsters && c.monsters.length ? c.monsters : []).slice(0, 5);
-    while (monsters.length < 5) monsters.push({ name: 'Wild Notemon ' + (monsters.length + 1) });
-    let pool = buildMC(c), qi = 0;
-    const maxHP = 100;
-    let hp = maxHP, mi = 0, mhp = 0, mmax = 0, streak = 0, caught = [], answered = 0, correctCount = 0;
-    const nextQ = () => { if (qi >= pool.length) { pool = buildMC(c); qi = 0; } return pool[qi++]; };
-    function startMonster() { mmax = 60 + mi * 25; mhp = mmax; }
-    startMonster();
-
-    function arenaHTML(m) {
-      return `
-      <div class="arena">
-        <div class="fighter player">
-          <div class="sprite" id="p-sprite">${ctx.player()}</div>
-          <div class="hpbar"><i id="p-hp" style="width:${pct(hp, maxHP)}%"></i></div>
-          <div class="hpnum">You ${hp}/${maxHP}</div>
-        </div>
-        <div class="vs">VS</div>
-        <div class="fighter monster">
-          <div class="sprite" id="m-sprite">${Icons.monster(mi)}</div>
-          <div class="hpbar mon"><i id="m-hp" style="width:${pct(mhp, mmax)}%"></i></div>
-          <div class="hpnum">${esc(m.name)} ${mhp}/${mmax}</div>
-        </div>
-        <div class="float" id="float"></div>
-      </div>`;
-    }
-
-    function render(msg) {
-      const m = monsters[mi];
-      const item = nextQ();
-      root.innerHTML = `
-        <div class="game-top"><span>Monster ${mi + 1}/${monsters.length}</span><span>${I('flame')} streak ${streak}</span><span>${I('box')} ${caught.length} caught</span></div>
-        ${arenaHTML(m)}
-        <div class="battle-log" id="log">${esc(msg || `A wild ${m.name} appears! Answer to attack.`)}</div>
-        <div class="qpanel"><p class="qtext">${esc(item.q)}</p>${choicesHTML(item)}</div>`;
-      askChoices(root, item).then(async ({ correct }) => {
-        answered++;
-        const log = root.querySelector('#log');
-        const fl = root.querySelector('#float');
-        if (correct) {
-          correctCount++; streak++;
-          const crit = streak >= 3;
-          const dmg = Math.round((20 + 5 * Math.min(streak, 4)) * (crit ? 1.5 : 1));
-          mhp = Math.max(0, mhp - dmg);
-          root.querySelector('#m-sprite').classList.add('hit');
-          root.querySelector('#m-hp').style.width = pct(mhp, mmax) + '%';
-          fl.textContent = (crit ? 'CRIT ' : '') + '-' + dmg; fl.className = 'float show mon';
-          log.textContent = crit ? `Critical hit! ${m.name} takes ${dmg} damage!` : `Direct hit! ${m.name} takes ${dmg} damage.`;
-          await wait(1000);
-          if (mhp <= 0) {
-            caught.push({ ...m, index: mi });
-            hp = Math.min(maxHP, hp + 15);
-            mi++;
-            if (mi >= monsters.length) return win();
-            startMonster();
-            return render(`You caught ${m.name}! You recover 15 HP. ${monsters[mi].name} appears!`);
-          }
-          render(`${m.name} has ${mhp} HP left. Keep going!`);
-        } else {
-          streak = 0;
-          const dmg = 12 + mi * 4;
-          hp = Math.max(0, hp - dmg);
-          root.querySelector('#p-sprite').classList.add('hit');
-          root.querySelector('#p-hp').style.width = pct(hp, maxHP) + '%';
-          fl.textContent = '-' + dmg; fl.className = 'float show me';
-          log.textContent = `Wrong! The answer was "${item.choices[item.answer]}". ${m.name} hits you for ${dmg}.` + (item.explanation ? ' ' + item.explanation : '');
-          await wait(item.explanation ? 2600 : 1600);
-          if (hp <= 0) return lose();
-          render(`Shake it off. ${m.name} still has ${mhp} HP.`);
-        }
-      });
-    }
-    const caughtHTML = () => `<div class="caught">${caught.map(m => `<span title="${esc(m.name)}">${Icons.monster(m.index)}</span>`).join('')}</div>`;
-    function win() {
-      ctx.done({ type: 'notemon', caught: caught.length, won: true, accuracy: pct(correctCount, answered) });
-      endScreen(root, {
-        title: 'You caught them all!', icon: 'trophy',
-        stats: [['caught', caught.length], ['accuracy', pct(correctCount, answered) + '%'], ['HP left', hp]],
-        again: ctx.restart, extra: caughtHTML(),
-      });
-    }
-    function lose() {
-      ctx.done({ type: 'notemon', caught: caught.length, won: false, accuracy: pct(correctCount, answered) });
-      endScreen(root, {
-        title: 'You fainted', icon: 'dizzy',
-        stats: [['caught', caught.length], ['accuracy', pct(correctCount, answered) + '%']],
-        again: ctx.restart, extra: caught.length ? caughtHTML() : '',
-      });
-    }
-    render();
-    return () => {};
-  }
+  // Notemon (the battle game) lives in js/notemon.js and adds itself as Games.notemon.
 
   // ---------------- Quiz (normal) ----------------
   function quiz(root, c, ctx) {
@@ -322,5 +229,7 @@ const Games = (() => {
     return () => {};
   }
 
-  return { flash, notemon, quiz };
+  // Shared pieces for game modes kept in their own files (js/notemon.js).
+  const _kit = { buildMC, choicesHTML, askChoices, endScreen, shuffle, esc, wait, pct };
+  return { flash, quiz, _kit };
 })();
